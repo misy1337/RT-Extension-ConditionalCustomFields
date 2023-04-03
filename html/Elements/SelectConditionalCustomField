@@ -3,7 +3,7 @@
 % while (my $CustomFieldObj = $CustomFields->Next) {
 % next if $OnlySelectionType and not $CustomFieldObj->IsSelectionType;
 % next if $Not and $CustomFieldObj->id == $Not;
-<option value="<%$CustomFieldObj->id%>"<% $Default == $CustomFieldObj->id && qq[ selected="selected"] |n%>><% $CustomFieldObj->Name %></option>
+<option value="<%$CustomFieldObj->id%>"<% $Default == $CustomFieldObj->id && qq[ selected="selected"] |n%>><% $CustomFieldObj->id . ": " . $CustomFieldObj->Name %></option>
 %}
 </select>
 <%INIT>
@@ -11,7 +11,7 @@ my $CustomFields = RT::CustomFields->new($session{'CurrentUser'});
 $CustomFields->UnLimit;
 $CustomFields->LimitToLookupType( $LookupType ) if $LookupType;
 $CustomFields->Limit(FIELD => 'Type', VALUE => 'IPAddressRange', OPERATOR => '!=', ENTRYAGGREGATOR => 'AND');
-$CustomFields->OrderByCols( { FIELD => 'LookupType' }, { FIELD => 'Name' } );
+$CustomFields->OrderByCols( { FIELD => 'LookupType' }, { FIELD => 'Id' } );
 
 $Default = $Default->id || 0 if ref $Default;
 </%INIT>
